@@ -1,0 +1,2 @@
+# Infinitech-FAR-KnowledgeGraphEmbedings
+This is the source code repository for the Infinitech Financial Asset Recommender system based on future Profitability Estimation of financial assets based on their price history. This method enhances the profitability prediction algorithms by integrating asset information from knowledge graphs as features.

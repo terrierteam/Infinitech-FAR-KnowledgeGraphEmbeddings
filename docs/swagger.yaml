@@ -1,0 +1,152 @@
+openapi: 3.0.0
+info:
+  title: Financial Asset Recommender API
+  description: API to fetch predicted returns for assets based on profitability prediction
+    recommender model
+  contact:
+    email: richard.mccreadie@glasgow.ac.uk
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/maanasa.srikrishna/Financial_Asset_Recommender_API_v1.0/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /stocks:
+    get:
+      summary: "Fetches predicted returns for specified asset based on pre-computed\
+        \ features, from the latest iteration of the profitability prediction recommender\
+        \ model"
+      description: "By passing in the asset ID, the predicted 9-month returns of the\
+        \ stock as calculated by the latest saved profitability prediction model can\
+        \ be obtained. \n"
+      operationId: get_stock_returns
+      parameters:
+      - name: Stock
+        in: query
+        description: Asset identifier
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Predicted returns for asset ID based on pre-computed features
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssetReturnsWithStock'
+        "400":
+          description: bad input parameter
+  /stocks/features:
+    get:
+      summary: "Fetches predicted returns for specified feature values, from the latest\
+        \ iteration of the profitability prediction recommender model"
+      description: "By passing in the features for the model, the predicted 9-month\
+        \ returns of the stock as calculated by the latest saved profitability prediction\
+        \ model can be obtained. \n"
+      operationId: get_stock_returns_with_features
+      parameters:
+      - name: avg_price_3m
+        in: query
+        description: Average asset price (3 months)
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      - name: volatility_3m
+        in: query
+        description: Volatility (3 months)
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      - name: returns_3m
+        in: query
+        description: Returns (3 months)
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      - name: avg_price_6m
+        in: query
+        description: Average asset price (6 months)
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      - name: volatility_6m
+        in: query
+        description: Volatility (6 months)
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      - name: returns_6m
+        in: query
+        description: Returns (6 months)
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      - name: avg_price_9m
+        in: query
+        description: Average asset price (9 months)
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      - name: volatility_9m
+        in: query
+        description: Volatility (9 months)
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      responses:
+        "200":
+          description: Predicted returns based on features provided in query argument
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssetReturns'
+        "400":
+          description: bad input parameter
+components:
+  schemas:
+    AssetReturnsWithStock:
+      required:
+      - Predicted returns
+      - Stock
+      type: object
+      properties:
+        Predicted returns:
+          type: number
+          format: float
+          example: 0.3580232974604235
+        Stock:
+          type: string
+          example: a
+    AssetReturns:
+      required:
+      - Predicted returns
+      type: object
+      properties:
+        Predicted returns:
+          type: number
+          format: float
+          example: 0.3580232974604235
